@@ -7,9 +7,11 @@ plugins {
     kotlin("jvm") version "2.1.20"
     jacoco
     id("io.gitlab.arturbosch.detekt") version ("1.23.8")
+    id("maven-publish")
+    id("org.jetbrains.dokka") version "1.9.10"
 }
 
-group = "com.github.ktomek.funktional"
+group = "com.github.ktomek"
 version = getGitTagVersion()
 
 repositories {
@@ -31,12 +33,37 @@ dependencies {
     detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
 }
 
+tasks.register<Jar>("javadocJar") {
+    archiveClassifier.set("javadoc")
+    from(tasks.dokkaHtml)
+}
+
+// Create a JAR of the source files
+val sourceJar by tasks.registering(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets.main.get().allSource)
+}
+
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            from(components["java"])
+            artifact(tasks.named("sourceJar"))
+            artifact(tasks.named("javadocJar"))
+
+            pom {
+                name.set("funKtional")
+                url.set("https://github.com/ktomek/funKtional")
+            }
+        }
+    }
+}
 
 tasks.test {
     useJUnitPlatform()
 }
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain(17)
 }
 
 // Kotlin DSL
