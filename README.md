@@ -1,3 +1,10 @@
+![Build](https://github.com/ktomek/funKtional/actions/workflows/ci.yml/badge.svg)
+![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)
+![GitHub release](https://img.shields.io/github/v/release/ktomek/funKtional)
+![GitHub issues](https://img.shields.io/github/issues/ktomek/funKtional)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/ktomek/funKtional)
+[![JitPack](https://jitpack.io/v/ktomek/funKtional.svg)](https://jitpack.io/#ktomek/funKtional)
+
 # funKtional
 
 A lightweight Kotlin library providing functional programming extensions and utilities for nullable handling, type casting, flow lifting, and more.
