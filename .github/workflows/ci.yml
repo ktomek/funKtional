@@ -23,7 +23,7 @@ jobs:
     - name: Build
       run: ./gradlew build --no-daemon
 
-  test-android:
+  test-jvm:
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -36,14 +36,14 @@ jobs:
         distribution: 'temurin'
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
-    - name: Run Android Unit Tests
-      run: ./gradlew testDebugUnitTest --no-daemon
+    - name: Run JVM Tests
+      run: ./gradlew jvmTest --no-daemon
     - name: Upload Test Results
       if: failure()
       uses: actions/upload-artifact@v4
       with:
-        name: test-results-android
-        path: build/reports/tests/testDebugUnitTest/
+        name: test-results-jvm
+        path: build/reports/tests/jvmTest/
 
   test-ios:
     runs-on: macos-latest

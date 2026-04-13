@@ -1,14 +1,13 @@
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.kotlin.dsl.withType
-import java.io.ByteArrayOutputStream
 
 plugins {
     kotlin("multiplatform") version "2.1.20"
-    id("com.android.library") version "8.2.2"
+    id("com.android.kotlin.multiplatform.library") version "9.1.1"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     id("maven-publish")
-    id("org.jetbrains.dokka") version "1.9.10"
+    id("org.jetbrains.dokka") version "2.2.0"
 }
 
 group = "com.github.ktomek"
@@ -26,9 +25,13 @@ dependencies {
 kotlin {
     jvmToolchain(17)
 
-    androidTarget {
-        publishLibraryVariants("release")
+    android {
+        namespace = "com.github.ktomek.funktional"
+        compileSdk = 36
+        minSdk = 21
     }
+
+    jvm()
 
     iosX64()
     iosArm64()
@@ -36,23 +39,16 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2")
         }
         commonTest.dependencies {
             implementation(kotlin("test"))
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
-            implementation("app.cash.turbine:turbine:1.2.0")
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
+            implementation("app.cash.turbine:turbine:1.2.1")
         }
     }
 }
 
-android {
-    namespace = "com.github.ktomek.funktional"
-    compileSdk = 34
-    defaultConfig {
-        minSdk = 21
-    }
-}
 
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "1.8"
@@ -89,12 +85,10 @@ publishing {
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
 fun getGitTagVersion(): String {
     return try {
-        val stdout = ByteArrayOutputStream()
-        exec {
-            commandLine = listOf("git", "describe", "--tags", "--abbrev=0")
-            standardOutput = stdout
-        }
-        stdout.toString().trim().removePrefix("v")
+        ProcessBuilder("git", "describe", "--tags", "--abbrev=0")
+            .redirectErrorStream(true)
+            .start()
+            .inputStream.bufferedReader().readText().trim().removePrefix("v")
     } catch (_: Exception) {
         "1.0.0"
     }

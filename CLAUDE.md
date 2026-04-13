@@ -6,9 +6,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```bash
 ./gradlew build                     # Full build (all targets)
-./gradlew testDebugUnitTest         # Android unit tests (runs on JVM, no emulator needed)
+./gradlew jvmTest                   # Run tests on JVM (fast, no device needed)
 ./gradlew iosSimulatorArm64Test     # iOS simulator tests (requires macOS + Xcode)
-./gradlew testDebugUnitTest --tests "com.github.ktomek.funktional.TExtTest"  # Single test class
+./gradlew jvmTest --tests "com.github.ktomek.funktional.TExtTest"  # Single test class
 ./gradlew detekt                    # Static analysis (must pass with 0 issues)
 ./gradlew dokkaHtml                 # Generate HTML documentation
 ```
@@ -28,7 +28,8 @@ The `*Co` naming convention consistently marks suspend variants throughout the A
 ## Key Configuration
 
 - **Kotlin**: 2.1.20, JVM toolchain 17
-- **Targets**: `androidTarget` (minSdk 21, compileSdk 34), `iosX64`, `iosArm64`, `iosSimulatorArm64`
+- **Targets**: `android` (minSdk 21, compileSdk 36), `jvm`, `iosX64`, `iosArm64`, `iosSimulatorArm64`
+- **Android plugin**: `com.android.kotlin.multiplatform.library` (AGP 9.x KMP-native plugin; `android {}` block lives inside `kotlin {}`)
 - **Detekt config**: `config/detekt-config.yml` — `buildUponDefaultConfig: true`, max issues: 0
 - **Version**: extracted from git tags at build time (fallback `1.0.0`)
 - **Publishing**: Maven Central via JitPack; release triggered by `v*.*.*` tags
