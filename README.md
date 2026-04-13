@@ -22,16 +22,12 @@ Targets: **Android · iOS · JVM**
 
 ## Installation
 
-Add GitHub Packages to your repositories and include the dependency:
+Add the repository and dependency to your `build.gradle.kts`:
 
 ```kotlin
 repositories {
     maven {
-        url = uri("https://maven.pkg.github.com/ktomek/funKtional")
-        credentials {
-            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
-            password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
-        }
+        url = uri("https://raw.githubusercontent.com/ktomek/funKtional/maven-repo")
     }
 }
 
@@ -39,8 +35,6 @@ dependencies {
     implementation("com.github.ktomek:funKtional:1.1.2")
 }
 ```
-
-GitHub Packages requires a GitHub Personal Access Token with `read:packages` scope. You can set it via `gpr.key` in your local `~/.gradle/gradle.properties` or via the `GITHUB_TOKEN` environment variable in CI.
 
 ## Usage
 
