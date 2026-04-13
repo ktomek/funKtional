@@ -32,7 +32,7 @@ The `*Co` naming convention consistently marks suspend variants throughout the A
 - **Android plugin**: `com.android.kotlin.multiplatform.library` (AGP 9.x KMP-native plugin; `android {}` block lives inside `kotlin {}`)
 - **Detekt config**: `config/detekt-config.yml` — `buildUponDefaultConfig: true`, max issues: 0
 - **Version**: extracted from git tags at build time (fallback `1.0.0`)
-- **Publishing**: Maven Central via JitPack; release triggered by `v*.*.*` tags
+- **Publishing**: GitHub Packages; release triggered by `v*.*.*` tags — runs on macOS to compile all targets (Android, JVM, iOS)
 
 ## Testing
 
