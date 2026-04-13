@@ -1,5 +1,7 @@
 package com.github.ktomek.funktional
 
+import kotlin.jvm.JvmName
+
 /**
 * Performs the given suspending [action] on the receiver and returns its result.
 *
