@@ -3,11 +3,12 @@
 ![GitHub release](https://img.shields.io/github/v/release/ktomek/funKtional)
 ![GitHub issues](https://img.shields.io/github/issues/ktomek/funKtional)
 ![GitHub pull requests](https://img.shields.io/github/issues-pr/ktomek/funKtional)
-[![JitPack](https://jitpack.io/v/ktomek/funKtional.svg)](https://jitpack.io/#ktomek/funKtional)
 
 # funKtional
 
-A lightweight Kotlin library providing functional programming extensions and utilities for nullable handling, type casting, flow lifting, and more.
+A lightweight Kotlin Multiplatform library providing functional programming extensions and utilities for nullable handling, type casting, flow lifting, and more.
+
+Targets: **Android · iOS · JVM**
 
 ## Features
 
@@ -21,19 +22,25 @@ A lightweight Kotlin library providing functional programming extensions and uti
 
 ## Installation
 
-Add JitPack to your repositories and include the dependency:
+Add GitHub Packages to your repositories and include the dependency:
 
-```groovy
+```kotlin
 repositories {
-    maven { url 'https://jitpack.io' }
+    maven {
+        url = uri("https://maven.pkg.github.com/ktomek/funKtional")
+        credentials {
+            username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR")
+            password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+        }
+    }
 }
 
 dependencies {
-    implementation 'com.github.ktomek:funKtional:Tag'
+    implementation("com.github.ktomek:funKtional:1.1.1")
 }
 ```
 
-Replace `Tag` with the release tag or commit SHA you want to use.
+GitHub Packages requires a GitHub Personal Access Token with `read:packages` scope. You can set it via `gpr.key` in your local `~/.gradle/gradle.properties` or via the `GITHUB_TOKEN` environment variable in CI.
 
 ## Usage
 
@@ -62,7 +69,6 @@ println(sum) // 5
 ### Advanced Usage: Chaining Functional Extensions
 
 ```kotlin
-
 runBlocking {
     val x: Int? = null
     val y: Int? = 5
