@@ -28,8 +28,7 @@ The `*Co` naming convention consistently marks suspend variants throughout the A
 ## Key Configuration
 
 - **Kotlin**: 2.1.20, JVM toolchain 17
-- **Targets**: `android` (minSdk 21, compileSdk 36), `jvm`, `iosX64`, `iosArm64`, `iosSimulatorArm64`
-- **Android plugin**: `com.android.kotlin.multiplatform.library` (AGP 9.x KMP-native plugin; `android {}` block lives inside `kotlin {}`)
+- **Targets**: `jvm` (covers JVM + Android consumers), `iosX64`, `iosArm64`, `iosSimulatorArm64`
 - **Detekt config**: `config/detekt-config.yml` — `buildUponDefaultConfig: true`, max issues: 0
 - **Version**: extracted from git tags at build time (fallback `1.0.0`)
 - **Publishing**: GitHub Packages; release triggered by `v*.*.*` tags — runs on macOS to compile all targets (Android, JVM, iOS)

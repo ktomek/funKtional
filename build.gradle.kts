@@ -4,7 +4,6 @@ import org.gradle.kotlin.dsl.withType
 
 plugins {
     kotlin("multiplatform") version "2.1.20"
-    id("com.android.kotlin.multiplatform.library") version "9.1.1"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
     id("maven-publish")
     id("org.jetbrains.dokka") version "2.2.0"
@@ -15,7 +14,6 @@ version = getGitTagVersion()
 
 repositories {
     mavenCentral()
-    google()
 }
 
 dependencies {
@@ -24,12 +22,6 @@ dependencies {
 
 kotlin {
     jvmToolchain(17)
-
-    android {
-        namespace = "com.github.ktomek.funktional"
-        compileSdk = 36
-        minSdk = 21
-    }
 
     jvm()
 
@@ -48,7 +40,6 @@ kotlin {
         }
     }
 }
-
 
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "1.8"

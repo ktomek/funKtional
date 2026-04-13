@@ -36,7 +36,7 @@ repositories {
 }
 
 dependencies {
-    implementation("com.github.ktomek:funKtional:1.1.1")
+    implementation("com.github.ktomek:funKtional:1.1.2")
 }
 ```
 
