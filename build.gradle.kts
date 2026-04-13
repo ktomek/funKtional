@@ -4,9 +4,9 @@ import org.gradle.kotlin.dsl.withType
 import java.io.ByteArrayOutputStream
 
 plugins {
-    kotlin("jvm") version "2.1.20"
-    jacoco
-    id("io.gitlab.arturbosch.detekt") version ("1.23.8")
+    kotlin("multiplatform") version "2.1.20"
+    id("com.android.library") version "8.2.2"
+    id("io.gitlab.arturbosch.detekt") version "1.23.8"
     id("maven-publish")
     id("org.jetbrains.dokka") version "1.9.10"
 }
@@ -16,57 +16,40 @@ version = getGitTagVersion()
 
 repositories {
     mavenCentral()
+    google()
 }
 
-repositories {
-    mavenCentral()
-}
+kotlin {
+    jvmToolchain(17)
 
-dependencies {
-    testImplementation(kotlin("test"))
+    androidTarget {
+        publishLibraryVariants("release")
+    }
 
-    testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
-    testImplementation("io.mockk:mockk:1.13.10")
-    testImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4")
-    testImplementation("app.cash.turbine:turbine:1.2.0")
+    iosX64()
+    iosArm64()
+    iosSimulatorArm64()
 
-    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
-}
-
-tasks.register<Jar>("javadocJar") {
-    archiveClassifier.set("javadoc")
-    from(tasks.dokkaHtml)
-}
-
-// Create a JAR of the source files
-val sourceJar by tasks.registering(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets.main.get().allSource)
-}
-
-publishing {
-    publications {
-        create<MavenPublication>("mavenJava") {
-            from(components["java"])
-            artifact(tasks.named("sourceJar"))
-            artifact(tasks.named("javadocJar"))
-
-            pom {
-                name.set("funKtional")
-                url.set("https://github.com/ktomek/funKtional")
-            }
+    sourceSets {
+        commonMain.dependencies {
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0")
+        }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.8.0")
+            implementation("app.cash.turbine:turbine:1.2.0")
         }
     }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
-kotlin {
-    jvmToolchain(17)
+android {
+    namespace = "com.github.ktomek.funktional"
+    compileSdk = 34
+    defaultConfig {
+        minSdk = 21
+    }
 }
 
-// Kotlin DSL
 tasks.withType<Detekt>().configureEach {
     jvmTarget = "1.8"
 }
@@ -89,6 +72,15 @@ detekt {
     autoCorrect = true
 }
 
+publishing {
+    publications.withType<MavenPublication> {
+        pom {
+            name.set("funKtional")
+            url.set("https://github.com/ktomek/funKtional")
+        }
+    }
+}
+
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
 fun getGitTagVersion(): String {
     return try {
@@ -99,6 +91,6 @@ fun getGitTagVersion(): String {
         }
         stdout.toString().trim().removePrefix("v")
     } catch (_: Exception) {
-        "1.0.0" // fallback if no tag found
+        "1.0.0"
     }
 }
