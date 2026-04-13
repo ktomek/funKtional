@@ -44,3 +44,8 @@ bin/
 
 ### Mac OS ###
 .DS_Store
+### Android ###
+local.properties
+
+### Superpowers ###
+docs/superpowers/
