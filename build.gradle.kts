@@ -19,6 +19,10 @@ repositories {
     google()
 }
 
+dependencies {
+    detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.8")
+}
+
 kotlin {
     jvmToolchain(17)
 
@@ -70,6 +74,7 @@ detekt {
     config.setFrom(file("config/detekt-config.yml"))
     buildUponDefaultConfig = true
     autoCorrect = true
+    source.setFrom("src/commonMain/kotlin")
 }
 
 publishing {
