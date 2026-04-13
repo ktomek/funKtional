@@ -1,18 +1,18 @@
 package com.github.ktomek.funktional
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import kotlin.test.assertNull
 
 class AnyExtTest {
 
-    // ofType & ofTypeOrNull
     @Test
     fun `GIVEN Any of correct type WHEN ofType called THEN casts successfully`() {
         val any: Any = "Test"
         val s: String = any.asType()
 
-        Assertions.assertEquals("Test", s)
+        assertEquals("Test", s)
     }
 
     @Test
@@ -28,13 +28,13 @@ class AnyExtTest {
 
         val result: String? = any.asTypeOrNull()
 
-        Assertions.assertEquals("OK", result)
+        assertEquals("OK", result)
     }
 
     @Test
     fun `GIVEN Any of wrong type WHEN ofTypeOrNull called THEN returns null`() {
         val any: Any = 123
 
-        Assertions.assertNull(any.asTypeOrNull<String>())
+        assertNull(any.asTypeOrNull<String>())
     }
 }

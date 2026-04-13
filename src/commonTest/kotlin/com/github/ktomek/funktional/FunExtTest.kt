@@ -1,11 +1,10 @@
 package com.github.ktomek.funktional
 
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Test
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class FunExtTest {
-
-    // –– Extension three‑arg lift(T1?.lift(T2?, T3?, f)) ––
 
     @Test
     fun `GIVEN three non-null inputs WHEN three-arg extension lift called THEN returns mapping result`() {
@@ -15,7 +14,7 @@ class FunExtTest {
 
         val result = a.lift(b, c) { x, y, z -> x * y * z }
 
-        Assertions.assertEquals(6, result)
+        assertEquals(6, result)
     }
 
     @Test
@@ -26,7 +25,7 @@ class FunExtTest {
 
         val result = a.lift(b, c) { x, y, z -> x * y * z }
 
-        Assertions.assertNull(result)
+        assertNull(result)
     }
 
     @Test
@@ -37,10 +36,8 @@ class FunExtTest {
 
         val result = a.lift(b, c) { x, y, z -> x * y * z }
 
-        Assertions.assertNull(result)
+        assertNull(result)
     }
-
-    // –– Top‑level two‑arg lift(t1, t2, f) ––
 
     @Test
     fun `GIVEN non-null parameters WHEN top-level two-arg lift called THEN returns mapping result`() {
@@ -49,7 +46,7 @@ class FunExtTest {
 
         val result = lift(x, y) { s1, s2 -> s1 + s2 }
 
-        Assertions.assertEquals("foobar", result)
+        assertEquals("foobar", result)
     }
 
     @Test
@@ -59,10 +56,8 @@ class FunExtTest {
 
         val result = lift(x, y) { s1, s2 -> s1 + s2 }
 
-        Assertions.assertNull(result)
+        assertNull(result)
     }
-
-    // –– Top‑level three‑arg lift(t1, t2, t3, f) ––
 
     @Test
     fun `GIVEN non-null parameters WHEN top-level three-arg lift called THEN returns mapping result`() {
@@ -72,7 +67,7 @@ class FunExtTest {
 
         val result = lift(x, y, z) { a, b, c -> a + b + c }
 
-        Assertions.assertEquals(9, result)
+        assertEquals(9, result)
     }
 
     @Test
@@ -83,6 +78,6 @@ class FunExtTest {
 
         val result = lift(x, y, z) { a, b, c -> a + b + c }
 
-        Assertions.assertNull(result)
+        assertNull(result)
     }
 }
