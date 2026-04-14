@@ -31,7 +31,7 @@ The `*Co` naming convention consistently marks suspend variants throughout the A
 - **Targets**: `jvm` (covers JVM + Android consumers), `iosX64`, `iosArm64`, `iosSimulatorArm64`
 - **Detekt config**: `config/detekt-config.yml` — `buildUponDefaultConfig: true`, max issues: 0
 - **Version**: extracted from git tags at build time (fallback `1.0.0`)
-- **Publishing**: `maven-repo` branch in this repo (served via raw.githubusercontent.com); release triggered by `v*.*.*` tags — runs on macOS to compile all targets. GitHub Packages was not used because it rejects `.klib` and `.aar` files with 422.
+- **Publishing**: Maven Central (`io.github.ktomek:funKtional`); triggered manually via `workflow_dispatch` with a version input — publishes first, tags on success. Uses `com.vanniktech.maven.publish` plugin with in-memory GPG signing.
 
 ## Testing
 

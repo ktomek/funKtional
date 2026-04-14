@@ -22,17 +22,9 @@ Targets: **Android · iOS · JVM**
 
 ## Installation
 
-Add the repository and dependency to your `build.gradle.kts`:
-
 ```kotlin
-repositories {
-    maven {
-        url = uri("https://raw.githubusercontent.com/ktomek/funKtional/maven-repo")
-    }
-}
-
 dependencies {
-    implementation("com.github.ktomek:funKtional:1.1.2")
+    implementation("io.github.ktomek:funKtional:1.2.0")
 }
 ```
 

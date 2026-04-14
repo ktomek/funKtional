@@ -1,3 +1,4 @@
+import com.vanniktech.maven.publish.SonatypeHost
 import io.gitlab.arturbosch.detekt.Detekt
 import io.gitlab.arturbosch.detekt.DetektCreateBaselineTask
 import org.gradle.kotlin.dsl.withType
@@ -5,12 +6,12 @@ import org.gradle.kotlin.dsl.withType
 plugins {
     kotlin("multiplatform") version "2.1.20"
     id("io.gitlab.arturbosch.detekt") version "1.23.8"
-    id("maven-publish")
+    id("com.vanniktech.maven.publish") version "0.30.0"
     id("org.jetbrains.dokka") version "2.2.0"
 }
 
-group = "com.github.ktomek"
-version = getGitTagVersion()
+group = "io.github.ktomek"
+version = project.findProperty("publishVersion") as String? ?: getGitTagVersion()
 
 repositories {
     mavenCentral()
@@ -24,7 +25,6 @@ kotlin {
     jvmToolchain(17)
 
     jvm()
-
     iosX64()
     iosArm64()
     iosSimulatorArm64()
@@ -37,6 +37,37 @@ kotlin {
             implementation(kotlin("test"))
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.10.2")
             implementation("app.cash.turbine:turbine:1.2.1")
+        }
+    }
+}
+
+mavenPublishing {
+    publishToMavenCentral(SonatypeHost.CENTRAL_PORTAL)
+    signAllPublications()
+
+    coordinates("io.github.ktomek", "funKtional", version.toString())
+
+    pom {
+        name.set("funKtional")
+        description.set("Lightweight Kotlin Multiplatform functional programming extensions for nullable handling, type casting, and coroutine-friendly utilities")
+        url.set("https://github.com/ktomek/funKtional")
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/licenses/MIT")
+            }
+        }
+        developers {
+            developer {
+                id.set("ktomek")
+                name.set("ktomek")
+                url.set("https://github.com/ktomek")
+            }
+        }
+        scm {
+            url.set("https://github.com/ktomek/funKtional")
+            connection.set("scm:git:git://github.com/ktomek/funKtional.git")
+            developerConnection.set("scm:git:ssh://git@github.com/ktomek/funKtional.git")
         }
     }
 }
@@ -62,21 +93,6 @@ detekt {
     buildUponDefaultConfig = true
     autoCorrect = true
     source.setFrom("src/commonMain/kotlin")
-}
-
-publishing {
-    repositories {
-        maven {
-            name = "LocalRepo"
-            url = uri(layout.buildDirectory.dir("repo"))
-        }
-    }
-    publications.withType<MavenPublication> {
-        pom {
-            name.set("funKtional")
-            url.set("https://github.com/ktomek/funKtional")
-        }
-    }
 }
 
 @Suppress("TooGenericExceptionCaught", "SwallowedException")
